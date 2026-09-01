@@ -1,0 +1,42 @@
+Before running, ASK ME to confirm (these change over time — never assume):
+  1. Which scenarios + their Time year, and the Rpt Currency for each column
+     (e.g. Actuals-25/USD/2025, OP2-26/USD/2026, Guidance Q3-26/Highlight/2026,
+      OP1-27 2027/Highlight/2027)
+  2. Which FPA Deck Version snapshot to use
+  3. Which FPA Deck Type (e.g. OP1)
+Wait for my answer, then proceed with the values I give.
+
+Query the FPA instance, cube "FPA Deck Opex Detail", and return Employee Expenses
+by cost center as a table — one row per cost center, in FULL DOLLAR AMOUNTS.
+
+ROWS (one line each):
+- C201 (parent total) and its direct children
+- Plus standalone lines: 5139, 7163
+
+COLUMNS (scenario + Rpt Currency + Time year — this replicates the report's
+"Incl ex FX Var" column; do NOT use the All Currencies rollup).
+Use the scenario/currency/year set I confirm above. Default set if I don't change it:
+- Actuals-25      -> Rpt Currency = USD       , Time Monthly = 2025
+- OP2-26          -> Rpt Currency = USD       , Time Monthly = 2026
+- Guidance Q3-26  -> Rpt Currency = Highlight , Time Monthly = 2026
+- OP1-27 2027     -> Rpt Currency = Highlight , Time Monthly = 2027
+
+LINE ITEM: [FPA Deck Line Item Opex] = "Fixed - Employee Expenses"
+
+FIXED FILTERS (WHERE):
+- FPA Deck Version = (the version I confirm; default "2027 OP1 - 8/31/26, 3:45 PM")
+- FPA Deck Type    = (the deck type I confirm; default OP1)
+- FPA Deck Account = Total Operating Expenses
+- FPA Deck Product = Echo/Alexa/CHA/Dash/Frames
+- FPA Deck Country = Total FPA Deck Countries (WW)
+- FPA Deck Adjustment = Total Adjustments by Viewtype
+- Company  = Total Company (Planning)
+- Datasource = DS001
+- Account  = TOPEX
+- Product  = PTOT
+- FPA Deck Opex Detail_m = nValueExcel    (FULL DOLLARS — "Whole Units and Dollars")
+
+Show cost center Name as a label. Do NOT skip zeros. Present values in full dollars
+(no $MM scaling), with thousands separators.
+C201 = queried parent (do not hand-sum). 5139 and 7163 are additive, not children of C201.
+Sanity check: C201 OP1-27 2027 should equal ~$372,054,000 (i.e. $372.05M).

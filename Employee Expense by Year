@@ -9,9 +9,23 @@ Wait for my answer, then proceed with the values I give.
 Query the FPA instance, cube "FPA Deck Opex Detail", and return Employee Expenses
 by cost center as a table — one row per cost center, in FULL DOLLAR AMOUNTS.
 
-ROWS (one line each):
-- C201 (parent total) and its direct children
-- Plus standalone lines: 5139, 7163
+ROWS — one line each, these exact 14 cost centers (all standalone, no parent rollup):
+  5329  Alexa AI
+  5328  Alexa - Conversational Assistant Modeling and Learning
+  7184  Alexa - AURORA (Understanding, Runtime, Orchestration, and Applied sciences)
+  5308  Alexa - Personalization and Delivery Engineering (PDE)
+  5183  Alexa - Personalization Autonomy and Proactive Intelligence (PAPI)
+  5393  Alexa - Central Analytics and Research and Science
+  5901  Alexa Customers & Technology
+  5893  Alexa Endpoint Experiences
+  7164  Alexa Edge AI
+  5146  Alexa Excellence
+  7137  Alexa Connected Devices
+  7147  Alexa AI Developer Tech
+  5139  Alexa Language and Data Operations
+  7163  Alexa Device Support
+Add a Total row = simple sum of these 14 rows (label it clearly as a sum, not a
+consolidation node).
 
 COLUMNS (scenario + Rpt Currency + Time year — this replicates the report's
 "Incl ex FX Var" column; do NOT use the All Currencies rollup).
@@ -38,5 +52,6 @@ FIXED FILTERS (WHERE):
 
 Show cost center Name as a label. Do NOT skip zeros. Present values in full dollars
 (no $MM scaling), with thousands separators.
-C201 = queried parent (do not hand-sum). 5139 and 7163 are additive, not children of C201.
-Sanity check: C201 OP1-27 2027 should equal ~$372,054,000 (i.e. $372.05M).
+Verify all 14 cost center codes resolve before running.
+Sanity check: at defaults, the 14-CC Total for OP1-27 2027 should be ~$384,465,000
+and C201 (Ttl Alexa Customers & Technology), if queried, should be ~$372,054,000.
